@@ -1,0 +1,87 @@
+name: lolflix_mobile
+description: "Mobile target application for LOLFLIX (Android & iOS)."
+publish_to: 'none'
+version: 2.2.4
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  lolflix:
+    path: ../lolflix_core
+
+  # Embedded rqbit torrent streaming engine (P2P anime)
+  rqbit_ffi:
+    path: ../rqbit_ffi
+
+  # Mobile-specific dependencies
+  cronet_http: ^1.9.0
+  workmanager: ^0.9.0
+  simple_pip_mode: ^1.1.0
+  device_screen_brightness: ^0.2.1
+  flutter_volume_controller: ^2.0.1
+  flutter_native_splash: ^2.4.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.2
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/lolflix-preload.mpeg
+    - shorebird.yaml
+    - assets/fonts/satoshi/
+    - .env
+
+  fonts:
+    - family: Satoshi
+      fonts:
+        - asset: assets/fonts/satoshi/Satoshi-Light.otf
+          weight: 300
+        - asset: assets/fonts/satoshi/Satoshi-LightItalic.otf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/satoshi/Satoshi-Regular.otf
+          weight: 400
+        - asset: assets/fonts/satoshi/Satoshi-Medium.otf
+          weight: 500
+        - asset: assets/fonts/satoshi/Satoshi-MediumItalic.otf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/satoshi/Satoshi-Bold.otf
+          weight: 700
+        - asset: assets/fonts/satoshi/Satoshi-BoldItalic.otf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/satoshi/Satoshi-Black.otf
+          weight: 900
+        - asset: assets/fonts/satoshi/Satoshi-Italic.otf
+          style: italic
+        - asset: assets/fonts/satoshi/Satoshi-BlackItalic.otf
+          weight: 900
+          style: italic
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  # App icon uses the LOLFLIX logo tile.
+  image_path: "assets/images/lolflix.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/images/lolflix.png"
+  min_sdk_android: 21
+
+flutter_native_splash:
+  color: "#05070B"
+  android: true
+  ios: false
+  web: false
+  android_12:
+    color: "#05070B"

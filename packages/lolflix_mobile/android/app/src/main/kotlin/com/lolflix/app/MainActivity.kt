@@ -1,0 +1,50 @@
+package com.lolflix.app
+
+import android.os.Build
+import android.os.Bundle
+import android.graphics.Rect
+import cl.puntito.simple_pip_mode.PipCallbackHelperActivityWrapper
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.MethodChannel
+
+class MainActivity : PipCallbackHelperActivityWrapper() {
+    private val CHANNEL = "com.lolflix/gesture_exclusion"
+    private var methodChannel: MethodChannel? = null
+    private var canEnterPip = false
+
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        super.configureFlutterEngine(flutterEngine)
+        methodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
+        methodChannel?.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "excludeBottomGestures" -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        val height = call.argument<Int>("height") ?: 200
+                        val decorView = window.decorView
+                        decorView.post {
+                            val rect = Rect(
+                                0,
+                                decorView.height - height,
+                                decorView.width,
+                                decorView.height
+                            )
+                            decorView.systemGestureExclusionRects = listOf(rect)
+                        }
+                    }
+                    result.success(true)
+                }
+                "clearGestureExclusion" -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        window.decorView.systemGestureExclusionRects = emptyList()
+                    }
+                    result.success(true)
+                }
+                "setCanEnterPip" -> {
+                    canEnterPip = call.argument<Boolean>("value") ?: false
+                    result.success(true)
+                }
+                else -> result.notImplemented()
+            }
+        }
+    }
+}

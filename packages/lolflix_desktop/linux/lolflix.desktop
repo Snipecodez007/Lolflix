@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=LOLFLIX
+Comment=Stream movies, TV shows, and anime
+GenericName=Media Player
+Exec=lolflix %u
+Icon=lolflix
+Terminal=false
+Categories=AudioVideo;Video;Player;
+MimeType=x-scheme-handler/lolflix;
+StartupNotify=true
+StartupWMClass=lolflix

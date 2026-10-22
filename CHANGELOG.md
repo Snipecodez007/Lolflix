@@ -1,0 +1,196 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+# 🚀 LOLFLIX v2.2.4 — Desktop Launch, Torrent Streaming, Discord RPC & More!
+
+We are thrilled to bring you **LOLFLIX v2.2.4**! This massive milestone introduces official **Windows & Linux Desktop support**, integrated **P2P Torrent streaming**, real-time **Discord Rich Presence**, and a host of performance and playback upgrades.
+
+---
+
+### 🖥️ Native Desktop Support (Windows & Linux)
+* **First-Class Desktop Experience:** LOLFLIX is now officially available for **Windows** and **Linux (AppImage)**!
+* **Hardware-Accelerated Playback:** Powered by `media_kit` (MPV/libmpv) for high-framerate, multi-format 4K playback.
+* **Desktop PiP & Window Controls:** Picture-in-Picture mode, dedicated window management, and native mouse/keyboard shortcuts.
+* **Embed & WebView Fallback:** Full webview stream embedding with custom hardware-acceleration safety fallbacks for Linux desktop environments.
+* **Pure-Dart REST Polyfills:** Seamless Firebase sync without requiring platform-native Google Services.
+
+---
+
+### ⚡ P2P Torrent Streaming & Downloads
+* **High-Speed Rust Engine:** Integrated custom `rqbit_ffi` Rust torrent engine for ultra-fast peer discovery and streaming.
+* **Stream While Downloading:** Start watching torrents immediately while segments buffer seamlessly in the background.
+* **Nyaa & PirateBay Support:** Deep scraping and search integration for anime (Nyaa) and movies/shows (PirateBay) with automated source fallback.
+* **Embedded Subtitle Parsing:** Extract and play embedded MKV/MP4 subtitle tracks directly from torrent files.
+
+---
+
+### 🎮 Discord Rich Presence (Desktop & Mobile)
+* **Show What You're Watching:** Automatically broadcasts your current movie, series episode, or anime to your Discord status with rich poster artwork, episode titles, and real-time playback progress.
+
+---
+
+### 🌐 Social Sharing & Dynamic Deep Links
+* **Compact Share Links:** Reduced movie and anime share links from ~470 characters down to clean, readable URLs (`https://YOUR_DOMAIN/watch?id=...&type=movie`).
+* **Dynamic Open Graph Previews:** Links shared on WhatsApp, Discord, Telegram, or Twitter automatically pull high-resolution cover artwork and descriptions directly from **TMDB** (Movies/TV) and **AniList** (Anime).
+* **Watch Party Cards:** Watch Party share previews now feature the official LOLFLIX brand banner.
+* **Instant In-App Redirection:** Clicking shared links instantly opens the media or watch party room inside the app.
+
+---
+
+### 📺 New Providers & Playback Enhancements
+* **Expanded Provider Library:** Added and updated stream providers including **StreamFlix**, **MovieBox**, **CastleTV**, **XON**, **Animetsu**, and **Miruro**.
+* **DNS-over-HTTPS (DoH):** Built-in DNS resolver bypassing ISP-level domain blocks and throttling.
+* **Anime Filler Detection:** Highlights and flags filler episodes in anime seasons automatically.
+* **Anime Sync:** Synchronize watch history and tracking seamlessly across **AniList**, **MyAnimeList (MAL)**, and **SIMKL**.
+
+---
+
+### 🎨 UI & Performance Polishing
+* **New App Preloader:** Fresh startup animation and transition screens.
+* **Overhauled Settings UI:** Re-architected settings screens with cleaner categorization and quick toggles.
+* **Continue Watching & Download Cards:** Redesigned horizontal cards with faster state restoration.
+* **Miniplayer & Navigation Fixes:** Resolved edge-case crashes when closing the miniplayer or switching tabs rapidly.
+
+---
+
+### 📦 Which APK Should I Download?
+
+| Asset | Architecture | Recommended For |
+|---|---|---|
+| **`lolflix-2.2.4.apk`** | **`arm64-v8a`** | **Most Users (Recommended)** — 99% of modern Android phones & tablets (~105 MB). |
+| `lolflix-2.2.4-universal.apk` | Universal | Contains all architectures in one package (~330 MB). |
+| `LOLFLIX-2.2.4.AppImage` | Linux x86_64 | Linux distributions (Ubuntu, Fedora, Arch, etc.). |
+| `LOLFLIX-Setup-2.2.4.exe` | Windows x64 | Windows 10 & 11 (64-bit). |
+
+## LOLFLIX-v2.2.3
+
+### 🚀 New Features & Enhancements
+*   **Media Kit Core Engine Migration:** Replaced the ExoPlayer-based `better_player_plus` engine with `media_kit` (using MPV/libmpv) for high-performance, hardware-accelerated video rendering, robust stream demuxing, and universal format support.
+*   **Video Debanding (Color Smoothing):** Added a new Video Debanding setting dynamically toggleable inside the player settings overlay and configurable globally on the Profile page. Reduces color-banding artifacts on compressed video streams.
+*   **Premium Custom Subtitles Rendering:** Integrated a custom overlay subtitle view with carriage return and null-byte stripping to prevent visual layout bugs. Exposed comprehensive configuration controls in both the player settings drawer and global Profile page, supporting transparent/semi-transparent/solid backgrounds and outline styles (drop shadow vs outlines).
+*   **Wakelock Keep-Screen-On Integration:** Integrated the screen wakelock (`wakelock_plus`) across both the main video player screen and fullscreen trailer player to prevent the device screen from dimming or turning off during video playback.
+*   **Ultra-sharp 4K TMDB Artwork:** Upgraded TMDB poster and backdrop media details to request maximum resolution original quality image variants instead of compressed `w500` versions, resulting in crystal clear details on high-density and large screens.
+*   **Unified Episode Header Title**: Updated the TV show/anime player screen header to display the specific episode title and number (e.g. `S1 E1 - Title`) as the primary heading instead of the redundant show/series title.
+
+### 🐛 Bug Fixes & Logic Improvements
+*   **Android Back Gestures WebView Hijack Protection:** Wrapped the fullscreen trailer screen in a custom PopScope and disabled the built-in YouTube player fullscreen button to prevent Android's native WebView predictive back gestures from intercepting navigation events and locking the user in the player screen.
+*   **Faked PNG Download Headers Cleansing:** Added stream detection and stripping for faked PNG magic headers prepended by Animepahe (Kwik) CDN segments, resolving "Failed to recognize file format" error loops when merging/transcoding TS segments via FFmpeg.
+*   **Seek-Stabilization & Continue Watching Resume Fix:** Fixed a timing bug where resuming media or switching tracks reset playback position to `0:00`. Rewrote the seek scheduler to wait for initial stream packet decoding before executing seek commands.
+*   **Local File URI Prefixing:** Configured player loaders to automatically prefix absolute offline local paths with the `file://` scheme to ensure compatibility with `media_kit`'s format-recognition system.
+*   **Dynamic Track Highlights & Local Cache Persistence:** Fixed subtitle and audio track highlights inside selection panels to use ID/URL matching. Cached user choices locally to avoid double-tap selection latency.
+*   **Unified Download Prompt:** Consolidated multiple sequential download sheets into a single, cohesive "Download Settings" prompt featuring dynamic M3U8 video resolution parsing on server load and automatic selection of the highest quality track.
+*   **Mojibake & Code Comments Cleanup:** Scanned and purged corrupted Unicode characters (Mojibake comments e.g., `ÃƒÂ¢Ã¢â`, `Ã¢â‚¬Â¢`) project-wide, replacing them with standard clean formatting.
+*   **Package Cleanup:** Deleted the unused local `/packages/better_player_plus` library folder.
+
+## LOLFLIX-v2.2.2
+
+### 🚀 New Features & Providers
+*   **Software Volume Boost (Up to 200%):** Rebuilt the native Kotlin playback engine using Android's `LoudnessEnhancer` to support boosting volume up to 200% (+20dB gain) via swiping and D-pad/TV keys, complete with a visual orange-accented HUD.
+*   **Custom Subtitle Loading & Persistence:** Added options in player settings to load subtitles locally from your device (using native file picker) or paste direct URLs from the internet. The app securely remembers and auto-loads your custom subtitles on subsequent playbacks.
+
+### 📦 Massive Dependency Upgrades
+*   **File Picker Integration:** Added `file_picker` (v12.0.0-beta.7) resolving complex win32 version conflicts and Gradle namespace errors.
+
+### 🐛 Bug Fixes & Logic Improvements
+*   **Screen Brightness Restoring:** Fixed a bug where exiting the player left the device locked to the player's brightness level. Brightness now correctly resets back to system default upon exit.
+*   **Downloader Subtitle Extraction:** The direct parallel/sequential downloader now correctly downloads external subtitle tracks or extracts embedded ones into `.srt` format upon download completion.
+*   **Subtitle Storage Auto-Cleanup:** Deleting a downloaded video now automatically deletes its associated `.srt` file from storage, preventing orphan subtitle clutter.
+
+## LOLFLIX-v2.2.1
+
+### 🚀 New Features & Providers
+*   **Brand New Anime Scrapers:** Added powerful new streaming sources for anime, specifically `Animetsu`, `Animex`, and `Miruro`.
+*   **Miruro Bypass Service:** Implemented a brand new, dedicated Cloudflare bypass service specifically tailored to handle Miruro streams.
+*   **NetMirror Migration:** Successfully ported and upgraded from the old `net11` servers to the brand new `LOLFLIX` (`net27`) servers for improved streaming stability and speed.
+
+### 🗑️ Deprecations & Removals
+*   **Killed AnimePahe:** Completely wiped out the `AnimePahe` scraper, including its complex Cloudflare bypass widgets and `kwik_extractor_service.dart`.
+*   **Removed Kwik Player:** The legacy `kwik_native_player.dart` has been entirely removed from the project as part of the move away from Animepahe.
+*   **NewTV Cleanup:** Stripped down `newtv_scraper.dart`, removing over 700 lines of bloated or legacy scraping logic.
+*   **Media Kit:** Removed `media_kit`, `media_kit_video`, and `media_kit_libs_video` from the dependencies.
+
+### 📦 Dependency Upgrades
+*   **Version Bump:** App version upgraded from `2.2.0` to `2.2.1`.
+*   **Firebase Overhaul:** Major version bumps for `firebase_core` (v3 to v4), `firebase_auth` (v5 to v6), and `cloud_firestore` (v5 to v6).
+*   **Navigation & UI:** Upgraded `go_router` drastically (from v14 to v17.3.0) and swapped out `flutter_markdown` for the actively maintained `flutter_markdown_plus`.
+*   **Core Packages:** Major updates to `youtube_player_flutter`, `flutter_local_notifications` (v18 to v22), `package_info_plus`, and `connectivity_plus`.
+
+### 🐛 Bug Fixes & Logic Improvements
+*   **Strict Anime Classification:** Fixed global bugs where the app mistakenly treated standard Japanese live-action TV shows as anime. The app now strictly relies on the explicit `mediaType == 'anime'` flag from AniList.
+*   **Crunchyroll Provider Page Fix:** Solved the "Empty Crunchyroll page" issue by bypassing TMDB anime filters specifically for Provider pages. Japanese shows launched from TMDB provider pages will now seamlessly play using the robust standard TV scrapers.
+*   **Build Fixes:** Bumped `coreLibraryDesugaring` in Gradle to `2.1.4` to fix strict dependency requirements introduced by the new `flutter_local_notifications` package.
+
+### 🏗️ Major Core Refactors
+*   **Player Screen:** Saw an immense 750+ line refactor primarily to strip out the old Kwik logic, adapt to the new stream result models, and fix provider selection logic.
+*   **Download Engine:** Over 1,000 lines changed across the download service and prompt to stabilize downloads and ensure compatibility with the newly added anime scrapers.
+*   **UI Overhauls:** Both `media_detail_screen.dart` and `watchlist_screen.dart` received 400-600+ lines of refactoring to support the new data flows and clean up the UI layer.
+
+## LOLFLIX-v2.2.0
+
+### ✨ New Features & Enhancements
+*   ⏩ **Upgraded Skip Intro/Outro UI:** The "Skip Intro" and "Skip Outro" buttons have been completely redesigned with a much thicker, bolder white background for a premium, highly visible OTT experience.
+*   📦 **Massive APK Size Reduction:** Reduced the primary GitHub Release APK size from ~300MB down to a lightning-fast ~90MB! We introduced a custom Python stripper script to automatically generate Shorebird-compatible `arm64-v8a` APKs out of the universal `.aab` file.
+
+### 🛠️ Bug Fixes & Improvements
+*   **AnimePahe Native Stream Proxy Fix:** Fixed a critical issue where direct `.m3u8` streams extracted from Kwik (AnimePahe) were failing to play on the native `media_kit` player due to strict CORS and referer policies. Implemented a robust local `HlsProxyService` to securely proxy the master playlist and dynamically rewrite segment URLs with the correct headers, allowing native stream playback!
+*   **"Lock Upp" Series Split-Season Fix:** Fixed a major metadata mapping bug where highly popular split-season Indian shows (like *Lock Upp*) would fail to play because TMDB grouped their episodes entirely differently than source providers. The scraper now intelligently falls back and cross-references "Season 1" entries!
+*   **Kwik Embed Provider Stability:** Fixed a bug where viewing an Anime via the Kwik Embed player would mistakenly trigger a "Provider Failed" error and switch sources if a background Kwik analytics script failed. The engine now ignores harmless background HTTP 404s so the video plays flawlessly!
+*   **Outro Skipping Edge Case Fixed:** Fixed a bug where skipping the Outro would accidentally skip vital post-credits scenes in anime.
+*   **Massive Codebase Cleanup:** Purged a variety of dead code, unused providers, and redundant null-aware expressions across the `downloads_screen`, `media_detail_screen`, and `download_service`. `dart analyze` now reports 0 issues!
+
+
+## LOLFLIX-v2.1.0
+
+### ✨ New Features & Enhancements
+*   ⚡ **Parallel Better Downloads:** Completely revamped the download engine to support significantly faster, highly reliable parallel downloading!
+*   🎉 **Watch Party Chats & Reactions:** The ultimate watch party experience is here! You can now chat in real-time and send live emoji reactions while watching movies perfectly synced with your friends!
+*   📱 **Picture-in-Picture (PiP) Support:** The highly anticipated PiP mode is here! Watch movies in a floating window while multitasking. What's even better? Watch Party sync works flawlessly while in PiP mode!
+*   🔗 **Cloudstream-Style Deep Link Sharing:** Say goodbye to broken share links! Sharing a movie or show now generates an elegant web-redirect link that works perfectly across all social apps and deep-links directly into the exact movie inside LOLFLIX!
+*   ❤️ **GitHub Sponsors Integration:** You can now accept donations directly! A shiny new "Sponsor LOLFLIX" button with a pink heart has been added to the Profile screen. (Your repository also has a sponsor button now thanks to the new `FUNDING.yml`!)
+
+### 🛠️ UI Tweaks & Improvements
+*   **Instant Playback:** The video player's internal buffering engine has been heavily optimized! Videos will now start playing *instantly* the moment the first frame is downloaded, instead of forcing you to wait for a mandatory 2.5-second buffer.
+*   **Zero-Delay Binge Watching (Stream Prefetching):** When watching a TV show or anime, the app will now silently fetch and process the stream links for the *next* episode in the background while you are watching the current one. When you click "Next Episode" (or when it auto-plays), the video will load instantly without any scraper loading screens!
+*   **Share Icon Repositioning:** Moved the share icon to a more convenient location alongside the other media action buttons for easier access.
+
+*   **Anime Mapping Fix:** Fixed an issue where slight punctuation differences between TMDB and AniList (such as "Journey's End" vs "Journey’s End" in Frieren) would cause the scraper to fetch an obscure mini-spin-off instead of the massively popular main series. The AniList scraper now strictly prioritizes search matches by popularity.
+*   **Episode Picker Orientation Bug:** Fixed a bug where selecting an episode from the in-player Episode Picker would lock the screen into a forced portrait (vertical) orientation. The player now seamlessly changes episodes in-place without reloading the entire screen, ensuring it stays perfectly locked in landscape mode!
+*   **Anime Batch Download Quality Selector:** Fixed a bug where batch downloading a full season of anime would skip the quality/language selector. It now correctly prompts you to choose your preferred resolution and Sub/Dub variation!
+*   **Parallel Download Merge Fix:** Fixed an issue where "Normal Series" videos would get stuck indefinitely on the "Merging files..." phase due to unnecessary audio transcoding. The app now intelligently distinguishes between Anime and Normal series, applying the instant direct-copy merging to normal series while preserving the timestamp-fixing audio transcode for Animepahe downloads.
+*   **Parallel Download Subtitle Fix:** Fixed a bug where subtitles chosen for normal TV shows/movies (via the parallel downloader engine) were being completely ignored. The parallel engine now correctly downloads and processes external subtitles into `.srt` format exactly like the sequential fallback engine does.
+*   **Premature Download Merge Fix:** Fixed a major bug where unstable networks would cause the parallel downloader to silently drop connections and prematurely merge incomplete files. The engine now features strict byte-verification and dynamically adjusts HTTP Range headers to seamlessly resume from the exact failed byte without corrupting the file!
+*   **Audio Track Reversion Bug:** Fixed a bug where resuming HLS streams would occasionally cause the player to abandon your preferred audio language and switch to an unnamed track. The player is now fully aware of dynamic chunk loading and strictly enforces your preferred track at all times.
+*   **Player Exit Crash Fix:** Fixed a "Bad state" crash that occurred when backing out of the video player, caused by attempting to read Riverpod providers while the widget was unmounting.
+*   **Video Player UI Crash Fix:** Fixed a layout rendering exception in the custom player controls that caused a solid white error overlay to appear instead of the video.
+*   **Auto-PiP Glitch Fixed:** Fixed an extremely annoying bug where the app would mistakenly enter Picture-in-Picture mode even after you fully backed out of the player and went to the home screen. PiP will now strictly only trigger if the video player is actually open!
+*   **System UI Navigation Fix:** Fixed a UI glitch where swiping back from the video player would cause the Android bottom navigation bar to permanently stick on the screen. The app now properly re-applies immersive mode to stay full-screen!
+
+## LOLFLIX-v2.0.0
+
+### ✨ New Features & Enhancements
+*   🧠 **Smart Preferences Memory:** The player now securely remembers your manually selected Audio Track, Subtitle Track, Video Quality, and Streaming Provider (e.g. Netflix vs Amazon) on a per-movie/per-show basis, automatically applying them the next time you hit play!
+*   🖼️ **Cinematic Continue Watching:** The "Continue Watching" row now elegantly uses horizontal thumbnails (backdrops) for both Movies and TV Episodes instead of standard vertical posters.
+*   📡 **Live TV Multi-Playlist:** You can now add an infinite number of IPTV M3U playlists at the same time and switch between them using the new Playlist Manager!
+*   ❤️ **Live TV Favorites:** Tap the heart icon on any channel to instantly save it. Your favorites will now automatically pin to the very top of your channel list!
+*   🗂️ **Live TV Filtering:** Easily filter your Live TV channels to show *only* your Favorites with the new dropdown category option!
+*   📱 **Native Playback:** Brought native playback to both anime and movies for a smoother, superior viewing experience!
+*   🎉 **In-App Changelog:** Added an elegant, auto-triggering popup to view release notes directly in the app!
+*   📥 **Full Download Support:** You can now download your favorite movies and anime episodes for offline viewing!
+*   🎥 **Brand New Video Player:** A completely rebuilt and improved video player experience!
+*   ⏩ **Double-Tap Seeking:** Polished incremental double-tap to seek (10s, 20s, 30s) just like Netflix!
+*   🔠 **Subtitle Resizing:** Added the ability to dynamically resize subtitles for a perfectly tailored viewing experience!
+*   📺 **Better Studio Screens:** Overhauled the studio screens for OTT platforms giving them a much more premium look!
+*   🎬 **TV Show Episode Titles:** The player now beautifully displays the specific episode title while you're watching!
+*   🛡️ **Animepahe Bypass Indicator:** Added a visual indicator when bypassing Animepahe's Cloudflare protection!
+*   🗂️ **Provider Categories:** Added better categorization to easily find and switch between stream providers!
+
+### 🛠️ Bug Fixes & Under the Hood
+*   🔄 **Provider Stability:** Fixed a player crash that occurred when rapidly switching between streaming providers.
+*   🎧 **Dynamic Track Switching:** Fixed dynamic audio and subtitle track switching specifically for anime!
+*   🎌 **Animepahe Improvements:** Massive under-the-hood fixes for Animepahe direct streams, mapping, and stability!
+*   🚀 **Performance Boosts:** Completely refactored IPTV data storage to the local device drive to prevent memory-limit crashes on massive 30MB+ playlists!
+*   ⚡ **Smoother UI:** Fixed several UI jank issues for buttery smooth scrolling across the app!
+*   ⏱️ **Watch Tracking:** Fixed and improved watch history tracking so you never lose your place!
+*   🔧 **Provider Fixes:** Fixed and improved the bypass for direct providers and the episode picker!
+*   💾 **More Reliable Downloads:** Improved download stability for anime and general media!
